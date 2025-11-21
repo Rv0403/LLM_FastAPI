@@ -1,17 +1,17 @@
-from fastapi import APIRouter, UploadFile, File
-from openai import OpenAI
+from fastapi import APIRouter
 from app.utils.file_handler import summary_text, linkdin_text
-from fastapi import Request
 from app.services.prompt.chat_prompt import chat_system_prompt
 from app.services.prompt.evaluation_prompt import evaluator_system_prompt, evaluator_user_prompt
 from app.services.llm.llm import openai_chat, gemini_evaluator
-from app.schemas.chat_evaluation_schemas import Query, Evaluation
-import os
+from app.schemas.chat_evaluation_schemas import Query
 
-app = APIRouter()
+router = APIRouter(
+    prefix='/userchat',
+    tags=['userchat']
+)
 
 
-@app.post("/chat")
+@router.post("/chat")
 def chat(query: Query):
     # Extract file paths and data from query
     file1_path = query.file1
