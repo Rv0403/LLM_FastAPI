@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
-from app.schemas.chat_evaluation_schemas import Query, Evaluation
+from app.schemas.chat_evaluation_schemas import Evaluation
 
 load_dotenv(override=True)
 openai = OpenAI()
@@ -16,8 +16,8 @@ openai_client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
-def openai_chat(chat_prompt: str, query: Query):
-    messages = [{"role": "system", "content": chat_prompt}, {"role": "user", "content": query.question}]
+def openai_chat(chat_prompt: str, question: str):
+    messages = [{"role": "system", "content": chat_prompt}, {"role": "user", "content": question}]
     response = openai_client.chat.completions.create(model="gpt-4o-mini", messages=messages)
     chat_answer = response.choices[0].message.content  
     return chat_answer
